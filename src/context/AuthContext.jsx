@@ -14,6 +14,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -43,7 +44,13 @@ export const AuthProvider = ({ children }) => {
     }
     } catch(error){
       console.log("Auth check failed: ", error);
-      logout();
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+
+      setUser(null);
+      setIsAuthenticated(false);
     }finally{
       setLoading(false);
     }
@@ -60,13 +67,13 @@ export const AuthProvider = ({ children }) => {
 
 
   const logout = () => {
-    const navigate = useNavigate();
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
 
     setUser(null);
     setIsAuthenticated(false);
+
     navigate("/", {replace: true});
 
   };
