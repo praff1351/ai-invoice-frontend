@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 
 const AuthContext = createContext();
@@ -58,13 +60,15 @@ export const AuthProvider = ({ children }) => {
 
 
   const logout = () => {
+    const navigate = useNavigate();
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
 
     setUser(null);
     setIsAuthenticated(false);
-    window.location.reload();
+    navigate("/", {replace: true});
+
   };
 
   const updateUser = (updatedUserData)=>{
