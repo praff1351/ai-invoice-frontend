@@ -17,6 +17,11 @@ const Headers = () => {
 
   const navigate = useNavigate();
 
+  const handleLogout=()=>{
+    logout();
+    navigate("/", {replace:true});
+  }
+
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -74,7 +79,7 @@ const Headers = () => {
                 avatar={user?.avatar || ""}
                 companyName={user?.name || ""}
                 email={user?.email || ""}
-                onLogout={logout}
+                onLogout={handleLogout}
               />
             ) : (
               <>
